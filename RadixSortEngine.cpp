@@ -11,23 +11,14 @@
  */
 RadixSortEngine::RadixSortEngine(std::vector<unsigned long> &v, size_t radix) : result(v), radix(radix), digits(calculateDigits()),
 powers(digits), left(radix), right(radix) {
-    powers.at(0) = 1 ;
-    for (size_t i = 1; i < digits; ++i) powers.at(i) = radix * powers.at(i - 1) ;
+
 }
 
 /**
  * Tri de base.
  */
 void RadixSortEngine::sort() {
-    if (result.size() < 2) return ;
-    initialSortToLeft() ;
-    size_t pos = 1 ;
-    for ( ; pos < digits; ++pos) {
-        if (pos % 2) sortLeftToRight(pos);
-        else sortRightToLeft(pos);
-    }
-    if (pos % 2) sortLeftLast() ;
-    else sortRightLast() ;
+
 }
 
 /**
@@ -80,8 +71,7 @@ std::string RadixSortEngine::outputRight() const {
  * @return Le nombre de chiffres de la représentation de n en base radix
  */
 size_t RadixSortEngine::calculateDigitsForNumber(unsigned long n) const {
-    double logNumber = std::log(n + 1) / std::log(radix) ;
-    return static_cast<size_t> (std::ceil(logNumber)) ;
+    return 0 ;
 }
 
 /**
@@ -89,9 +79,7 @@ size_t RadixSortEngine::calculateDigitsForNumber(unsigned long n) const {
  * @return Le nombre de chiffres nécessaires
  */
 size_t RadixSortEngine::calculateDigits() const {
-    if (result.empty()) throw std::runtime_error("Tentative de trier un vecteur vide") ;
-    unsigned long maxElem = *(std::max_element(result.cbegin(), result.cend())) ;
-    return calculateDigitsForNumber(maxElem);
+    return 0 ;
 }
 
 /**
@@ -101,15 +89,14 @@ size_t RadixSortEngine::calculateDigits() const {
  * @return
  */
 size_t RadixSortEngine::extractDigitAtPosition(size_t pos, unsigned long n) {
-    unsigned long quotient = n / powers.at(pos) ;
-    return static_cast<size_t> (quotient % radix) ;
+   return 0 ;
 }
 
 /**
  * Premier tri du vecteur resultat dans le vecteur de files de gauche.
  */
 void RadixSortEngine::initialSortToLeft() {
-    for (auto i: result) left.at(i % radix).push(i) ;
+
 }
 
 /**
@@ -117,12 +104,7 @@ void RadixSortEngine::initialSortToLeft() {
  * @param pos Position donnée dans la base radix.
  */
 void RadixSortEngine::sortLeftToRight(size_t pos) {
-    for (auto& q: left) {
-        while (!q.empty()) {
-            auto& n = q.front() ; q.pop() ;
-            right.at(extractDigitAtPosition(pos, n)).push(n) ;
-        }
-    }
+
 }
 
 /**
@@ -130,40 +112,21 @@ void RadixSortEngine::sortLeftToRight(size_t pos) {
  * @param pos Position du chiffre utilisée pour le tri
  */
 void RadixSortEngine::sortRightToLeft(size_t pos) {
-    for (auto& q: right) {
-        while (!q.empty()) {
-            auto& n = q.front() ; q.pop() ;
-            left.at(extractDigitAtPosition(pos, n)).push(n) ;
-        }
-    }
+
 }
 
 /**
  * Transfert du contenu du vecteur de gauche vers les résultats.
  */
 void RadixSortEngine::sortLeftLast() {
-    auto it = result.begin() ;
-    for (auto& q: left) {
-        while (!q.empty()) {
-            *it = q.front() ;
-            q.pop() ;
-            ++ it ;
-        }
-    }
+
 }
 
 /**
  * Transfert du contenu du vecteur de droite vers les résultats.
  */
 void RadixSortEngine::sortRightLast() {
-    auto it = result.begin() ;
-    for (auto& q: right) {
-        while (!q.empty()) {
-            *it = q.front() ;
-            q.pop() ;
-            ++ it ;
-        }
-    }
+
 }
 
 
